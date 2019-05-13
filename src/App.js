@@ -4,7 +4,11 @@ import './App.css'
 import Table from './Table'
 
 const App = () => {
+    const isClient = typeof window === 'object';
+
     const [table, setTable] = useState([])
+    const [windowSize, setWindowSize] = useState(getSize)
+    //fetch data
     async function fecthdate() {
         const result = await fetch('http://localhost:3004/data')
         const json = await result.json()
@@ -28,9 +32,27 @@ const App = () => {
         console.log(table)
         setTable(table)
     }
+
+    function handleWindowResize() {
+        console.log(window.innerWidth);
+        setWindowSize(getSize)
+    };
+
+    function getSize() {
+        return {
+            width: isClient ? window.innerWidth : undefined,
+            height: isClient ? window.innerHeight : undefined
+        };
+    }
+
+
     useEffect(() => {
-        fecthdate();
+        if(table.length === 0)
+            fecthdate();
+        window.addEventListener('resize', handleWindowResize);
+        return () => window.addEventListener('resize', handleWindowResize)
     }, []);
+
 
 
     return (
