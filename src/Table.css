@@ -1,0 +1,16 @@
+.column{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+}
+
+.block{
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    padding: auto;
+}
+.block:hover{
+    background: #ECF0F1
+}
