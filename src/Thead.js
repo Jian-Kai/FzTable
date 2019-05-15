@@ -12,6 +12,8 @@ const Thead = ({ head, HB_size }) => {
                         borderTopWidth: '1px',
                         borderRightWidth: '1px',
                         borderBottomWidth: '0px',
+                        background: '#f7f7f7',
+                        zIndex: 1
                     }
                     if (index === head.length - 1) border.borderBottomWidth = '1px';
                     return <div key={index} className='block' style={border}>

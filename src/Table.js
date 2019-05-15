@@ -12,7 +12,15 @@ const Table = ({ thead, tbody, size, count, showRow }) => {
     console.log(body)
     const tbody_click = (col, row) => {
         let newbody = [...body]
-        newbody[row][col].highlight = 2;
+        for (let i = 0; i < newbody.length; i++) {
+            for (let j = 1; j < newbody[i].length; j++) {
+                newbody[i][j].highlight = 0;
+                if (i === row && j === col) newbody[i][j].highlight = 2;
+                else if (i === row) newbody[i][j].highlight = 3;
+                else if (j === col) newbody[i][j].highlight = 3;
+            }
+        }
+
         setBody([...newbody])
     }
 

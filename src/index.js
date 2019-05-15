@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 const count = {
-    slide: 1,
-    show: 3
+    slide: 3,
+    show: 2
 }
-const speed = .3;
+const speed = 1000;
 const whenclick = () => {
     console.log('click')
 }

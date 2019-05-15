@@ -8,7 +8,7 @@ const App = ({ count, speed, whenclick }) => {
     //console.log(count, speed, whenclick)
     const [table, setTable] = useState([])
     const [size, setSize] = useState(getSize)
-    const [showRow, setShowRow] = useState({ satrt: 0, end: count.show - 1 })
+    const [showRow, setShowRow] = useState({ start: 0, end: 7, f: 0 })
 
     //fetch data
     async function fecthdate() {
@@ -36,6 +36,13 @@ const App = ({ count, speed, whenclick }) => {
     }
 
     function handleWindowChange() {
+        if (document.body.clientWidth >= 769)
+            setShowRow({ start: 0, end: 6, f: 0 });
+        else {
+            if (count.show > 4) count.show = 4
+            if (count.show <= 0) count.show = 1
+            setShowRow({ start: 0, end: count.show - 1, f: 0 });
+        }
         setSize(getSize)
     };
 
@@ -65,10 +72,14 @@ const App = ({ count, speed, whenclick }) => {
     }
 
     const slide = (value) => {
-        console.log(value)
         let newshowRow = { ...showRow };
-        newshowRow.satrt += value * count.slide;
-        newshowRow.end += value * count.slide;
+        newshowRow.start = (newshowRow.start + value * count.slide < 0) ? 0 : newshowRow.start + value * count.slide;
+        newshowRow.end = (newshowRow.end + value * count.slide < 6) ? newshowRow.end + value * count.slide : 6;
+        newshowRow.f += value * count.slide;
+        if (newshowRow.end - newshowRow.start < count.show - 1 && value > 0)
+            newshowRow.start = newshowRow.end - (count.show - 1)
+        if (newshowRow.end - newshowRow.start < count.show - 1 && value < 0)
+            newshowRow.end = newshowRow.start + (count.show - 1)
         setShowRow(newshowRow)
     }
 
@@ -80,10 +91,10 @@ const App = ({ count, speed, whenclick }) => {
                 (table.length > 0) ? <Table thead={head} tbody={fillBody} size={size} count={count} showRow={showRow} /> : ''
             }
             {
-                (showRow.end < 6) ? <Arrow direction={'right'} position={-size + 20 - 5} slide={slide} /> : ''
+                (showRow.end < 6) ? <Arrow direction={'right'} position={size - 20 + (count.show + 1)} slide={slide} /> : ''
             }
             {
-                (showRow.satrt > 0) ? <Arrow direction={'left'} position={88 + 1 -20} slide={slide} /> : ''
+                (showRow.start > 0) ? <Arrow direction={'left'} position={88 + 1} slide={slide} /> : ''
             }
         </div>
     )

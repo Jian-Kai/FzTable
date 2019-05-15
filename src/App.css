@@ -9,5 +9,6 @@
     user-select: none;
     position: absolute;
     left:0;
+    overflow-x: hidden;
   }
   

@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import './Arrow.css'
 const Arrow = ({direction, position, slide}) =>{
     
-    const style = {};
-    style[direction] = position;
+    const style = {left:position};
+    //style[direction] = position;
     const value  = (direction === 'right')? 1 : -1
 
     return(
