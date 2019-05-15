@@ -1,12 +1,12 @@
 import React from 'react';
 import './Table.css';
 
-const Tbody = ({ body, BB_size, count, showRow, tbody_click }) => {
+const Tbody = ({ body, BB_size, count, showRow, load, tbody_click }) => {
     const block_size = BB_size / (showRow.end - showRow.start + 1);
     //const block_size = BB_size / count.show;
 
-    console.log(showRow)
-
+    //console.log(showRow)
+    let reload = (load === null || BB_size > 769-88)? showRow : load;
     const body_context = body.map((context, row) => {
         //console.log(context)
         //if (showRow.start <= row && row <= showRow.end) {
@@ -21,11 +21,13 @@ const Tbody = ({ body, BB_size, count, showRow, tbody_click }) => {
                         borderRightWidth: '1px',
                         borderBottomWidth: '0px',
                         visibility: 'hidden',
-                        left: -(block_size * showRow.start + (showRow.f))
+                        left: -(block_size * reload.start + (reload.start))
                     };
                     let className = 'block';
 
-                    if (showRow.start <= row && row <= showRow.end) border.visibility = 'visible'
+                    if (col === 0) border.background = "#eaedf2"
+
+                    if (reload.start <= row && row <= reload.end) border.visibility = 'visible'
                     if (col === context.length - 1) border.borderBottomWidth = '1px';
                     if (col > 0) className += ' activalbe'
                     if (inside.highlight === 2) className += ' clicked'
@@ -33,11 +35,28 @@ const Tbody = ({ body, BB_size, count, showRow, tbody_click }) => {
                     //control clickable when block is price 
                     return (col > 0) ?
                         <div key={col} className={className} style={border} onClick={() => tbody_click(col, row)}>
-                            <span> {inside.text} </span>
+                            {
+                                (inside.text === "查看") ? inside.text
+                                    :
+                                    (inside.text === 12300) ?
+                                        <div>
+                                            <span className='price low'> {"$" + inside.text} </span>
+                                            <span>起</span>
+                                        </div>
+                                        :
+                                        <div>
+                                            <span className='price'> {"$" + inside.text} </span>
+                                            <span>起</span>
+                                        </div>
+                            }
+
                         </div>
                         :
                         <div key={col} className={className} style={border}>
-                            <span> {inside.text} </span>
+                            {
+                                (inside.text === '01/01(六)') ? <span className="newyear2"> {inside.text} </span> : <span> {inside.text} </span>
+                            }
+
                         </div>
                 })
             }</div>

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 const count = {
-    slide: 3,
+    slide: 1,
     show: 2
 }
 const speed = 1000;

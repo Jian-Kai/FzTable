@@ -8,7 +8,8 @@ const App = ({ count, speed, whenclick }) => {
     //console.log(count, speed, whenclick)
     const [table, setTable] = useState([])
     const [size, setSize] = useState(getSize)
-    const [showRow, setShowRow] = useState({ start: 0, end: 7, f: 0 })
+    const [showRow, setShowRow] = useState({ start: 0, end: 7 })
+    const [load, setLoad] = useState(null)
 
     //fetch data
     async function fecthdate() {
@@ -36,12 +37,14 @@ const App = ({ count, speed, whenclick }) => {
     }
 
     function handleWindowChange() {
-        if (document.body.clientWidth >= 769)
-            setShowRow({ start: 0, end: 6, f: 0 });
+
+        if (document.body.clientWidth >= 769) {
+            setShowRow({ start: 0, end: 6 });
+        }
         else {
             if (count.show > 4) count.show = 4
             if (count.show <= 0) count.show = 1
-            setShowRow({ start: 0, end: count.show - 1, f: 0 });
+            setShowRow({ start: 0, end: count.show - 1 });
         }
         setSize(getSize)
     };
@@ -71,15 +74,16 @@ const App = ({ count, speed, whenclick }) => {
         return (temp_body)
     }
 
-    const slide = (value) => {
+    function slide(value) {
         let newshowRow = { ...showRow };
+
         newshowRow.start = (newshowRow.start + value * count.slide < 0) ? 0 : newshowRow.start + value * count.slide;
         newshowRow.end = (newshowRow.end + value * count.slide < 6) ? newshowRow.end + value * count.slide : 6;
-        newshowRow.f += value * count.slide;
         if (newshowRow.end - newshowRow.start < count.show - 1 && value > 0)
             newshowRow.start = newshowRow.end - (count.show - 1)
         if (newshowRow.end - newshowRow.start < count.show - 1 && value < 0)
             newshowRow.end = newshowRow.start + (count.show - 1)
+        setLoad({...newshowRow})
         setShowRow(newshowRow)
     }
 
@@ -88,7 +92,7 @@ const App = ({ count, speed, whenclick }) => {
         <div className='app'>
 
             {
-                (table.length > 0) ? <Table thead={head} tbody={fillBody} size={size} count={count} showRow={showRow} /> : ''
+                (table.length > 0) ? <Table thead={head} tbody={fillBody} size={size} count={count} showRow={showRow} load={load}/> : ''
             }
             {
                 (showRow.end < 6) ? <Arrow direction={'right'} position={size - 20 + (count.show + 1)} slide={slide} /> : ''

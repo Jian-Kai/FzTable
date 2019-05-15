@@ -4,12 +4,12 @@ import './Table.css'
 import Thead from './Thead'
 import Tbody from './Tbody'
 
-const Table = ({ thead, tbody, size, count, showRow }) => {
+const Table = ({ thead, tbody, size, count, showRow, load }) => {
 
     const [body, setBody] = useState(tbody);
 
+    console.log(load)
     const HB_size = 88;
-    console.log(body)
     const tbody_click = (col, row) => {
         let newbody = [...body]
         for (let i = 0; i < newbody.length; i++) {
@@ -27,7 +27,7 @@ const Table = ({ thead, tbody, size, count, showRow }) => {
     return (
         <div className='table'>
             <Thead head={thead} HB_size={HB_size} />
-            <Tbody body={body} BB_size={size - HB_size} count={count} showRow={showRow} tbody_click={tbody_click} />
+            <Tbody body={body} BB_size={size - HB_size} count={count} showRow={showRow} load={load} tbody_click={tbody_click} />
         </div>
     )
 }

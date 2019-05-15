@@ -1,14 +1,17 @@
 .app {
-    height: 90vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding: 0px;
-    align-items: center;
-    user-select: none;
-    position: absolute;
-    left:0;
-    overflow-x: hidden;
-  }
-  
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0px;
+  align-items: center;
+  user-select: none;
+  position: absolute;
+  left: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Verdana, Arial, \\5FAE\8EDF\6B63\9ED1\9AD4, Microsoft JhengHei, \\5FAE\8EDF\96C5\9ED1\9AD4, Microsoft YaHei;
+}
