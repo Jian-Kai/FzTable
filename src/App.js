@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 
 import './App.css'
 import Table from './Table'
+import Arrow from './Arrow'
 
-const App = () => {
-    const isClient = typeof window === 'object';
-
+const App = ({ count, speed, whenclick }) => {
+    //console.log(count, speed, whenclick)
     const [table, setTable] = useState([])
-    const [windowSize, setWindowSize] = useState(getSize)
+    const [size, setSize] = useState(getSize)
+    const [showRow, setShowRow] = useState({ satrt: 0, end: count.show - 1 })
+
     //fetch data
     async function fecthdate() {
         const result = await fetch('http://localhost:3004/data')
@@ -33,32 +35,56 @@ const App = () => {
         setTable(table)
     }
 
-    function handleWindowResize() {
-        console.log(window.innerWidth);
-        setWindowSize(getSize)
+    function handleWindowChange() {
+        setSize(getSize)
     };
 
     function getSize() {
-        return {
-            width: isClient ? window.innerWidth : undefined,
-            height: isClient ? window.innerHeight : undefined
-        };
+        return (document.body.clientWidth);
     }
 
-
     useEffect(() => {
-        if(table.length === 0)
+        if (table.length === 0)
             fecthdate();
-        window.addEventListener('resize', handleWindowResize);
-        return () => window.addEventListener('resize', handleWindowResize)
+        handleWindowChange();
+        window.addEventListener('resize', handleWindowChange);
+        //return () => window.addEventListener('resize', handleShowRange)
     }, []);
 
+    let head = table.map(context => context[0]);
+    function fillBody() {
+        let temp_body = [];
+        for (let i = 1; i < head.length; i++) {
+            let temp = [];
+            for (let j = 0; j < table.length; j++) {
+                temp.push(table[j][i]);
+            }
+            temp_body.push(temp);
+        }
+        return (temp_body)
+    }
+
+    const slide = (value) => {
+        console.log(value)
+        let newshowRow = { ...showRow };
+        newshowRow.satrt += value * count.slide;
+        newshowRow.end += value * count.slide;
+        setShowRow(newshowRow)
+    }
 
 
     return (
         <div className='app'>
-            {(table.length === 0) ? "Table" :
-                <Table table={table} />}
+
+            {
+                (table.length > 0) ? <Table thead={head} tbody={fillBody} size={size} count={count} showRow={showRow} /> : ''
+            }
+            {
+                (showRow.end < 6) ? <Arrow direction={'right'} position={-size + 20 - 5} slide={slide} /> : ''
+            }
+            {
+                (showRow.satrt > 0) ? <Arrow direction={'left'} position={88 + 1 -20} slide={slide} /> : ''
+            }
         </div>
     )
 };

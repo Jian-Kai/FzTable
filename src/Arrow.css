@@ -1,0 +1,16 @@
+.arrow {
+    width: 20px;
+    height: 50px;
+    background: lightgray;
+    position: relative;
+    text-align: center;
+    padding: auto;
+    z-index: 3;
+}
+
+.arrow::before {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}

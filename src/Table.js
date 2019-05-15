@@ -1,41 +1,27 @@
 import React, { useState } from 'react';
 import './Table.css'
 
-const Table = ({ table }) => {
-    console.log(table)
-    
-    return (
-        <div style={{ cursor: 'pointer' }}>
-            {
-                table.map((line, column) => {
-                    let borderBottomWidth = '0px';
-                    if (column === (table.length - 1)) {
-                        borderBottomWidth = '1px';
-                    }
-                    return (
-                        <div className="column" key={column} col={column}>
-                            {
+import Thead from './Thead'
+import Tbody from './Tbody'
 
-                                line.map((inline, row) => {
-                                    let border = {
-                                        borderLeftWidth: '0px',
-                                        borderTopWidth: '1px',
-                                        borderRightWidth: '1px',
-                                    }
-                                    if (row === (0)) {
-                                        border.borderLeftWidth = '1px';
-                                    }
-                                    border.borderBottomWidth = borderBottomWidth;
-                                    return <div key={row} row={row} className="block" style={border}> {inline.text} </div>
-                                }
-                                )
-                            }
-                        </div>
-                    )
-                })
-            }
+const Table = ({ thead, tbody, size, count, showRow }) => {
+
+    const [body, setBody] = useState(tbody);
+
+    const HB_size = 88;
+    console.log(body)
+    const tbody_click = (col, row) => {
+        let newbody = [...body]
+        newbody[row][col].highlight = 2;
+        setBody([...newbody])
+    }
+
+    return (
+        <div className='table'>
+            <Thead head={thead} HB_size={HB_size} />
+            <Tbody body={body} BB_size={size - HB_size} count={count} showRow={showRow} tbody_click={tbody_click} />
         </div>
-    );
+    )
 }
 
 export default Table
