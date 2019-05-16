@@ -1,12 +1,12 @@
 import React from 'react';
 import './Table.css';
 
-const Tbody = ({ body, BB_size, count, showRow, load, tbody_click }) => {
+const Tbody = ({ body, BB_size, showRow, load, tbody_click, roolsp }) => {
     const block_size = BB_size / (showRow.end - showRow.start + 1);
     //const block_size = BB_size / count.show;
 
     //console.log(showRow)
-    let reload = (load === null || BB_size > 769-88)? showRow : load;
+    let reload = (load === null || BB_size > 769 - 88) ? showRow : load;
     const body_context = body.map((context, row) => {
         //console.log(context)
         //if (showRow.start <= row && row <= showRow.end) {
@@ -21,7 +21,8 @@ const Tbody = ({ body, BB_size, count, showRow, load, tbody_click }) => {
                         borderRightWidth: '1px',
                         borderBottomWidth: '0px',
                         visibility: 'hidden',
-                        left: -(block_size * reload.start + (reload.start))
+                        left: -(block_size * reload.start + (reload.start)),
+                        transition: "left linear " + roolsp + "s, visibility cubic-bezier(0.075, 0.82, 0.165, 1) " + roolsp + "s"
                     };
                     let className = 'block';
 
@@ -34,20 +35,22 @@ const Tbody = ({ body, BB_size, count, showRow, load, tbody_click }) => {
                     if (inside.highlight === 3) className += ' neighbor'
                     //control clickable when block is price 
                     return (col > 0) ?
-                        <div key={col} className={className} style={border} onClick={() => tbody_click(col, row)}>
+                        <div key={col} className={className} style={border} onClick={(e) => tbody_click(col, row, e)}>
                             {
-                                (inside.text === "查看") ? inside.text
-                                    :
-                                    (inside.text === 12300) ?
-                                        <div>
-                                            <span className='price low'> {"$" + inside.text} </span>
-                                            <span>起</span>
-                                        </div>
+                                (inside.text === "查看") ?
+                                    (col === 1 && row === 0) ?
+                                        "--":inside.text
                                         :
-                                        <div>
-                                            <span className='price'> {"$" + inside.text} </span>
-                                            <span>起</span>
-                                        </div>
+                                        (inside.text === 12300) ?
+                                            <div>
+                                                <span className='price low'> {"$" + inside.text} </span>
+                                                <span>起</span>
+                                            </div>
+                                            :
+                                            <div>
+                                                <span className='price'> {"$" + inside.text} </span>
+                                                <span>起</span>
+                                            </div>
                             }
 
                         </div>

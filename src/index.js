@@ -6,9 +6,10 @@ const count = {
     slide: 1,
     show: 2
 }
-const speed = 1000;
-const whenclick = () => {
+const speed = .5;
+const whenclick = (ele) => {
     console.log('click')
+    console.log(ele.target)
 }
 
 ReactDOM.render(<App count={count} speed={speed} whenclick={whenclick}/>, document.getElementById('root'));

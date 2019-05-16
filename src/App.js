@@ -10,6 +10,7 @@ const App = ({ count, speed, whenclick }) => {
     const [size, setSize] = useState(getSize)
     const [showRow, setShowRow] = useState({ start: 0, end: 7 })
     const [load, setLoad] = useState(null)
+    const [roolsp, setRoolsp] = useState(speed)
 
     //fetch data
     async function fecthdate() {
@@ -44,9 +45,13 @@ const App = ({ count, speed, whenclick }) => {
         else {
             if (count.show > 4) count.show = 4
             if (count.show <= 0) count.show = 1
-            setShowRow({ start: 0, end: count.show - 1 });
+            if (load === null)
+                setShowRow({ start: 0, end: count.show - 1 });
+            else
+                setShowRow({ ...load });
         }
-        setSize(getSize)
+        setSize(getSize);
+        setRoolsp(0);
     };
 
     function getSize() {
@@ -59,7 +64,7 @@ const App = ({ count, speed, whenclick }) => {
         handleWindowChange();
         window.addEventListener('resize', handleWindowChange);
         //return () => window.addEventListener('resize', handleShowRange)
-    }, []);
+    }, [load]);
 
     let head = table.map(context => context[0]);
     function fillBody() {
@@ -76,15 +81,21 @@ const App = ({ count, speed, whenclick }) => {
 
     function slide(value) {
         let newshowRow = { ...showRow };
-
+        console.log(newshowRow)
         newshowRow.start = (newshowRow.start + value * count.slide < 0) ? 0 : newshowRow.start + value * count.slide;
         newshowRow.end = (newshowRow.end + value * count.slide < 6) ? newshowRow.end + value * count.slide : 6;
         if (newshowRow.end - newshowRow.start < count.show - 1 && value > 0)
             newshowRow.start = newshowRow.end - (count.show - 1)
         if (newshowRow.end - newshowRow.start < count.show - 1 && value < 0)
             newshowRow.end = newshowRow.start + (count.show - 1)
-        setLoad({...newshowRow})
-        setShowRow(newshowRow)
+
+        let newload = load
+        newload = newshowRow
+        setLoad({ ...newload });
+        console.log(load)
+        setRoolsp(.3);
+        setShowRow(newshowRow);
+
     }
 
 
@@ -92,7 +103,7 @@ const App = ({ count, speed, whenclick }) => {
         <div className='app'>
 
             {
-                (table.length > 0) ? <Table thead={head} tbody={fillBody} size={size} count={count} showRow={showRow} load={load}/> : ''
+                (table.length > 0) ? <Table thead={head} tbody={fillBody} size={size} whenclick={whenclick} showRow={showRow} load={load} roolsp={roolsp} /> : ''
             }
             {
                 (showRow.end < 6) ? <Arrow direction={'right'} position={size - 20 + (count.show + 1)} slide={slide} /> : ''
