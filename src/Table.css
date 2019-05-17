@@ -29,6 +29,7 @@
     flex-direction: column;
     justify-content: center;
     color:#999;
+    z-index: inherit;
 }
 
 .block.neighbor{
@@ -41,7 +42,6 @@
 .block.clicked:after {
     content: ' ';
     display: inline-block;
-   
     border: 1px solid #E67E22;
     width: 100%;
     height: 100%;

@@ -16,9 +16,9 @@ const Tbody = ({ body, BB_size, showRow, load, tbody_click, roolsp }) => {
                     //control border style & hoverable
                     let border = {
                         width: block_size,
-                        borderLeftWidth: '0px',
+                        borderLeftWidth: '1px',
                         borderTopWidth: '1px',
-                        borderRightWidth: '1px',
+                        borderRightWidth: '0px',
                         borderBottomWidth: '0px',
                         visibility: 'hidden',
                         left: -(block_size * reload.start + (reload.start)),
@@ -30,7 +30,8 @@ const Tbody = ({ body, BB_size, showRow, load, tbody_click, roolsp }) => {
 
                     if (reload.start <= row && row <= reload.end) border.visibility = 'visible'
                     if (col === context.length - 1) border.borderBottomWidth = '1px';
-                    if (col > 0) className += ' activalbe'
+                    if (row === showRow.end) border.borderRightWidth = '1px';
+                        if (col > 0) className += ' activalbe'
                     if (inside.highlight === 2) className += ' clicked'
                     if (inside.highlight === 3) className += ' neighbor'
                     //control clickable when block is price 
@@ -39,18 +40,18 @@ const Tbody = ({ body, BB_size, showRow, load, tbody_click, roolsp }) => {
                             {
                                 (inside.text === "查看") ?
                                     (col === 1 && row === 0) ?
-                                        "--":inside.text
+                                        "--" : inside.text
+                                    :
+                                    (inside.text === 12300) ?
+                                        <div>
+                                            <span className='price low'> {"$" + inside.text} </span>
+                                            <span>起</span>
+                                        </div>
                                         :
-                                        (inside.text === 12300) ?
-                                            <div>
-                                                <span className='price low'> {"$" + inside.text} </span>
-                                                <span>起</span>
-                                            </div>
-                                            :
-                                            <div>
-                                                <span className='price'> {"$" + inside.text} </span>
-                                                <span>起</span>
-                                            </div>
+                                        <div>
+                                            <span className='price'> {"$" + inside.text} </span>
+                                            <span>起</span>
+                                        </div>
                             }
 
                         </div>

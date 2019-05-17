@@ -10,10 +10,10 @@ const Thead = ({ head, HB_size }) => {
                         width: HB_size,
                         borderLeftWidth: '1px',
                         borderTopWidth: '1px',
-                        borderRightWidth: '1px',
+                        borderRightWidth: '0px',
                         borderBottomWidth: '0px',
                         background: '#f7f7f7',
-                        zIndex: 1
+                        zIndex: '2',
                     }
                     if (index === head.length - 1) border.borderBottomWidth = '1px';
                     return (index > 0) ?
